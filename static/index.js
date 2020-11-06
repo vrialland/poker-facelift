@@ -1,5 +1,11 @@
 var socket = io('http://127.0.0.1:5000/');
-//socket.emit('join', 'jean-michel');
+
+Vue.component('room', {
+  template: `
+    <div>
+      <h3>Room</h3>
+    </div>`
+});
 
 Vue.component('input-name', {
   template: `
@@ -16,6 +22,7 @@ Vue.component('input-name', {
   methods: {
     enter: function() {
       socket.emit('join', this.username);
+      this.$emit('enter');
     }
   }
 });
@@ -24,6 +31,11 @@ var app = new Vue({
     el: '#app',
     data: {
         message: 'Poker FaceLift',
-        username: ''
+        connected: false
+    },
+    methods: {
+      enter: function() {
+        this.connected = true;
+      }
     }
 });
