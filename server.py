@@ -8,10 +8,52 @@ app.debug = True
 
 participants = []
 
+
+class Room:
+    def __init__(self):
+        self.players = []
+
+    def join(self, name):
+        player = {'name': name, 'choice': None}
+        self.players.append(player)
+        self.broadcast_players()
+
+    def leave(self, name):
+        for player in self.players:
+            if player['name'] == name:
+                self.players.remove(player)
+                self.broadcast_players()
+                break
+
+    def select(self, name, choice):
+        for player in self.players:
+            if player['name'] == name:
+                player['choice'] = choice
+                self.broadcast_players()
+                break
+
+    def broadcast_players(self):
+        emit('players_update', self.players, broadcast=True)
+
+
+room = Room()
+
+
 @socketio.on('join')
 def handle_join(name):
-    participants.append(name)
-    emit('participants_update', participants, broadcast=True)
+    room.join(name)
+
+
+@socketio.on('left')
+def handle_left(name):
+    room.leave(name)
+
+
+@socketio.on('select')
+def handle_select(player):
+    room.select(player['name'], player['choice'])
+
+
 
 
 @app.route('/')

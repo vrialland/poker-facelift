@@ -1,16 +1,39 @@
 var socket = io('http://127.0.0.1:5000/');
 
+Vue.component('vote', {
+  data: function() {
+    return {
+      choices: ['?', '1', '2', '3', '5', '8', '13', '21']
+    }
+  },
+  props: ['name'],
+  template: `
+    <span>
+      <span v-for="choice in choices">
+        <button v-on:click="select(choice)">{{choice}}</button>
+      </span>
+    </span>`,
+  methods: {
+    select: function(choice) {
+      socket.emit('select', {'name': this.name, 'choice': choice});
+    }
+  }
+
+});
+
 Vue.component('room', {
   template: `
     <div>
-      <h3>Room</h3>
-      <ul>
-        <li v-for="participant in participants">
-          {{participant}}
+      <h3>Welcome {{name}}!</h3>
+      <label for="players">List of players:</label>
+      <ul id="players">
+        <li v-for="player in players">
+          {{player.name}} / {{player.choice}}
         </li>
       </ul>
+      <vote v-bind:name="name"/>
     </div>`,
-  props: ['participants']
+  props: ['players', 'name']
 });
 
 Vue.component('input-name', {
@@ -28,7 +51,7 @@ Vue.component('input-name', {
   methods: {
     enter: function() {
       socket.emit('join', this.username);
-      this.$emit('enter');
+      this.$emit('enter', this.username);
     }
   }
 });
@@ -38,17 +61,24 @@ var app = new Vue({
   data: {
     message: 'Poker FaceLift',
       connected: false,
-      participants: []
+      name: 'Toto',
+      players: []
   },
   methods: {
-    enter: function() {
+    enter: function(name) {
+      this.name = name;
       this.connected = true;
     },
-    onParticipantsUpdate: function(participants) {
-      this.participants = participants;
+    onPlayersUpdate: function(players) {
+      this.players = players;
     }
   },
   created: function() {
-    socket.on('participants_update', this.onParticipantsUpdate);
+    socket.on('players_update', this.onPlayersUpdate);
+    // when closing the tab / page, we send an event
+    window.addEventListener('beforeunload', (event) => {
+      console.log('left called');
+      socket.emit('left', this.name);
+    });
   }
 });
