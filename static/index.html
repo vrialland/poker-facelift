@@ -9,7 +9,7 @@
     <div id="app">
       <h2>{{ message }}</h2>
       <span v-if="connected"> 
-        <room/>
+        <room v-bind:participants="participants"/>
       </span>
       <span v-else>
         <input-name v-on:enter="enter"/>

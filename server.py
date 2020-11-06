@@ -1,14 +1,17 @@
 from flask import Flask
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 app.debug = True
 
+participants = []
+
 @socketio.on('join')
 def handle_join(name):
-    print(f'New user joined {name}')
+    participants.append(name)
+    emit('participants_update', participants, broadcast=True)
 
 
 @app.route('/')

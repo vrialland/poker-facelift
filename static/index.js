@@ -4,7 +4,13 @@ Vue.component('room', {
   template: `
     <div>
       <h3>Room</h3>
-    </div>`
+      <ul>
+        <li v-for="participant in participants">
+          {{participant}}
+        </li>
+      </ul>
+    </div>`,
+  props: ['participants']
 });
 
 Vue.component('input-name', {
@@ -28,14 +34,21 @@ Vue.component('input-name', {
 });
 
 var app = new Vue({ 
-    el: '#app',
-    data: {
-        message: 'Poker FaceLift',
-        connected: false
+  el: '#app',
+  data: {
+    message: 'Poker FaceLift',
+      connected: false,
+      participants: []
+  },
+  methods: {
+    enter: function() {
+      this.connected = true;
     },
-    methods: {
-      enter: function() {
-        this.connected = true;
-      }
+    onParticipantsUpdate: function(participants) {
+      this.participants = participants;
     }
+  },
+  created: function() {
+    socket.on('participants_update', this.onParticipantsUpdate);
+  }
 });
