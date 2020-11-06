@@ -7,8 +7,8 @@ socketio = SocketIO(app)
 app.debug = True
 
 @socketio.on('join')
-def handle_join():
-    print('new user joined')
+def handle_join(name):
+    print(f'New user joined {name}')
 
 
 @app.route('/')
