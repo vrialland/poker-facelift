@@ -28,11 +28,21 @@ Vue.component('room', {
       <label for="players">List of players:</label>
       <ul id="players">
         <li v-for="player in players">
-          {{player.name}} / {{player.choice}}
+          {{player.name}} / <span v-bind:class="{hidden: hideChoices}">{{player.choice}}</span>
         </li>
       </ul>
       <vote v-bind:name="name"/>
     </div>`,
+  computed: {
+    hideChoices: function() {
+      for (var player of this.players) {
+        if (!player.choice) {
+	  return true;
+	}
+      }
+      return false;
+    }
+  },
   props: ['players', 'name']
 });
 
