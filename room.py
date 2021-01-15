@@ -30,3 +30,10 @@ class Room:
 
             player['choice'] = choice
             return
+
+    def clear(self):
+        """
+        Clear players votes
+        """
+        for player in self.players:
+            player['choice'] = None

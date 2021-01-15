@@ -44,6 +44,7 @@ Vue.component('room', {
       <vote v-bind:name="name"/>
       <br><br>
       <button v-on:click="reveal()">Reveal</button>
+      <button v-on:click="clear()">Clear</button>
     </div>`,
   computed: {
     hideChoices: function() {
@@ -61,6 +62,9 @@ Vue.component('room', {
   methods: {
     reveal: function() {
       this.forceReveal = true;
+    },
+    clear: function() {
+      socket.emit('clear');
     }
   },
   props: ['players', 'name']

@@ -4,7 +4,7 @@ from flask_socketio import SocketIO, emit
 from room import Room
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 app.debug = True
 
@@ -33,6 +33,12 @@ def handle_left(name):
 @socketio.on('select')
 def handle_select(player):
     room.select(player['name'], player['choice'])
+    broadcast_players(room)
+
+
+@socketio.on('clear')
+def handle_clear():
+    room.clear()
     broadcast_players(room)
 
 
