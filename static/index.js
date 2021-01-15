@@ -1,4 +1,4 @@
-var socket = io('http://127.0.0.1:5000/');
+var socket = io('https://poker-facelift.herokuapp.com/');
 
 Vue.component('vote', {
   data: function() {
