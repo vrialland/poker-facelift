@@ -8,3 +8,12 @@ span.hidden {
   display: inline-block;
   width: 20px;
 }
+
+ul#players {
+  width: max-content;
+}
+
+span.choice {
+  float: right;
+  width: 3em;
+}

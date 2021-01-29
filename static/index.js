@@ -39,10 +39,12 @@ Vue.component('room', {
       <ul id="players">
         <li v-for="player in players">
           <span v-if="player.name == name">
-            <strong>{{player.name}}</strong> / {{player.choice}}
+            <strong>{{player.name}}</strong>
+            <span class="choice">&nbsp;/ {{player.choice}}</span>
           </span>
           <span v-else>
-            {{player.name}} / <span v-bind:class="{hidden: hideChoices}">{{player.choice}}</span>
+            {{player.name}}
+            <span class="choice">&nbsp;/ <span v-bind:class="{hidden: hideChoices}">{{player.choice}}</span>
           </span>
         </li>
       </ul>
