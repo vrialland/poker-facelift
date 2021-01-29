@@ -13,6 +13,10 @@ ul#players {
   width: max-content;
 }
 
+li.player {
+  margin-top: 0.4em;
+}
+
 span.choice {
   float: right;
   width: 3em;
