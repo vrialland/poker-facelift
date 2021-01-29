@@ -26,6 +26,8 @@ class Room:
         """
         Select a choice for a player.
         """
+        if self.finished:
+            return
         finished = True
         for player in self.players:
             if player['name'] == name:

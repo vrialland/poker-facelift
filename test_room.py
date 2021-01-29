@@ -28,6 +28,10 @@ def test_select():
     assert room.finished
     assert {'name': 'player1', 'choice': 'choice1'} in room.players
     assert {'name': 'player2', 'choice': 'choice2'} in room.players
+    # Select is disabled when voting is finished
+    room.select('player1', 'choice2')
+    assert {'name': 'player1', 'choice': 'choice1'} in room.players
+
 
 
 def test_clear():
