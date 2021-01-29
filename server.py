@@ -14,32 +14,44 @@ participants = []
 room = Room()
 
 
-def broadcast_players(room):
-    emit('players_update', room.players, broadcast=True)
+def broadcast_room(room):
+    emit(
+        'room_update',
+        {
+            'players': room.players,
+            'finished': room.finished
+        },
+        broadcast=True)
 
 
 @socketio.on('join')
 def handle_join(name):
     room.join(name)
-    broadcast_players(room)
+    broadcast_room(room)
 
 
 @socketio.on('left')
 def handle_left(name):
     room.leave(name)
-    broadcast_players(room)
+    broadcast_room(room)
 
 
 @socketio.on('select')
 def handle_select(player):
     room.select(player['name'], player['choice'])
-    broadcast_players(room)
+    broadcast_room(room)
 
 
 @socketio.on('clear')
 def handle_clear():
     room.clear()
-    broadcast_players(room)
+    broadcast_room(room)
+
+
+@socketio.on('reveal')
+def handle_reveal():
+    room.reveal()
+    broadcast_room(room)
 
 
 @app.route('/')

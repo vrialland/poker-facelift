@@ -1,9 +1,4 @@
 Vue.component('room', {
-  data: function () {
-    return {
-      forceReveal: false
-    }
-  },
   template: `
     <div>
       <h3>Welcome {{name}}</h3>
@@ -27,7 +22,7 @@ Vue.component('room', {
     </div>`,
   computed: {
     hideChoices: function() {
-      if (this.forceReveal) {
+      if (this.finished) {
         return false
       }
       for (const player of this.players) {
@@ -40,11 +35,11 @@ Vue.component('room', {
   },
   methods: {
     reveal: function() {
-      this.forceReveal = true
+      socket.emit('reveal')
     },
     clear: function() {
       socket.emit('clear')
     }
   },
-  props: ['players', 'name']
+  props: ['players', 'name', 'finished']
 })

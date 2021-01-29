@@ -11,23 +11,24 @@ let app = new Vue({
   data: {
     message: 'Poker FaceLift',
       connected: false,
-      name: 'Toto',
-      players: []
+      name: '',
+      players: [],
+      finished: false
   },
   methods: {
     enter: function(name) {
       this.name = name;
       this.connected = true;
     },
-    onPlayersUpdate: function(players) {
-      this.players = players;
+    onRoomUpdate: function(room) {
+      this.players = room.players
+      this.finished = room.finished
     }
   },
   created: function() {
-    socket.on('players_update', this.onPlayersUpdate)
+    socket.on('room_update', this.onRoomUpdate)
     // when closing the tab / page, we send an event
     window.addEventListener('beforeunload', (event) => {
-      console.log('left called')
       socket.emit('left', this.name)
     })
   }

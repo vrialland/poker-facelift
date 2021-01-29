@@ -1,6 +1,7 @@
 class Room:
     def __init__(self):
         self.players = []
+        self.finished = False
 
     def join(self, name):
         """
@@ -8,6 +9,7 @@ class Room:
         """
         player = {'name': name, 'choice': None}
         self.players.append(player)
+        self.finished = False
 
     def leave(self, name):
         """
@@ -24,12 +26,13 @@ class Room:
         """
         Select a choice for a player.
         """
+        finished = True
         for player in self.players:
-            if player['name'] != name:
-                continue
-
-            player['choice'] = choice
-            return
+            if player['name'] == name:
+                player['choice'] = choice
+            else:
+                finished = finished and (player['choice'])
+        self.finished = finished
 
     def clear(self):
         """
@@ -37,3 +40,10 @@ class Room:
         """
         for player in self.players:
             player['choice'] = None
+        self.finished = False
+
+    def reveal(self):
+        """
+        Force the end of voting session
+        """
+        self.finished = True
