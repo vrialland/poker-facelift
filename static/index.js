@@ -1,4 +1,9 @@
-var socket = io('https://poker-facelift.herokuapp.com/');
+let originUrl = 'http://127.0.0.1:5000/'
+if (window.location.origin === 'https://poker-facelift.herokuapp.com') {
+  originUrl = 'https://poker-facelift.herokuapp.com/'
+}
+
+var socket = io(originUrl)
 
 Vue.component('vote', {
   data: function() {
