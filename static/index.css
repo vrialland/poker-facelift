@@ -1,6 +1,7 @@
 html, body {
   margin: 5px;
   padding: 0;
+  text-align: center;
 }
 
 span.hidden {
@@ -9,12 +10,19 @@ span.hidden {
   width: 20px;
 }
 
-ul#players {
+div.players {
   width: max-content;
+  text-align: left;
+  margin: auto;
 }
 
-li.player {
-  margin-top: 0.4em;
+li {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+span#observers {
+  color: grey;
 }
 
 span.choice {
