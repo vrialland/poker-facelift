@@ -15,6 +15,17 @@ Vue.component('room', {
           </span>
         </li>
       </ul>
+      <label for="observers">List of observers:</label>
+      <ul id="observers">
+        <li v-for="observer in observers">
+          <span v-if="observer.name == name">
+            <strong>{{observer.name}}</strong>
+          </span>
+          <span v-else>
+            {{observer.name}}
+          </span>
+        </li>
+      </ul>
       <vote v-bind:name="name"/>
       <br><br>
       <button v-on:click="reveal()">Reveal</button>
@@ -41,5 +52,5 @@ Vue.component('room', {
       socket.emit('clear')
     }
   },
-  props: ['players', 'name', 'finished']
+  props: ['players', 'observers', 'name', 'finished']
 })

@@ -13,6 +13,7 @@ let app = new Vue({
       connected: false,
       name: '',
       players: [],
+      observers: [],
       finished: false
   },
   methods: {
@@ -22,6 +23,7 @@ let app = new Vue({
     },
     onRoomUpdate: function(room) {
       this.players = room.players
+      this.observers = room.observers
       this.finished = room.finished
     }
   },

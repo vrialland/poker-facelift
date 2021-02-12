@@ -1,26 +1,39 @@
 class Room:
     def __init__(self):
         self.players = []
+        self.observers = []
         self.finished = False
 
-    def join(self, name):
+    def join_player(self, name):
         """
-        Add a player to the player list.
+        Add a new player to the room.
         """
         player = {'name': name, 'choice': None}
         self.players.append(player)
         self.finished = False
 
+    def join_observer(self, name):
+        """
+        Add a new observer to the room.
+        """
+        observer = {'name': name}
+        self.observers.append(observer)
+
     def leave(self, name):
         """
-        Remove a player from the player list.
+        Remove a player or observer from the room.
         """
-        for player in self.players:
-            if player['name'] != name:
-                continue
+        def remove_by_name(users, name):
+            for user in users:
+                if user['name'] != name:
+                    continue
 
-            self.players.remove(player)
-            return
+                users.remove(user)
+                return True
+            return False
+
+        if not remove_by_name(self.players, name):
+            remove_by_name(self.observers, name)
 
     def select(self, name, choice):
         """

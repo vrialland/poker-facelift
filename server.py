@@ -19,14 +19,21 @@ def broadcast_room(room):
         'room_update',
         {
             'players': room.players,
+            'observers': room.observers,
             'finished': room.finished
         },
         broadcast=True)
 
 
-@socketio.on('join')
-def handle_join(name):
-    room.join(name)
+@socketio.on('join_player')
+def handle_join_player(name):
+    room.join_player(name)
+    broadcast_room(room)
+
+
+@socketio.on('join_observer')
+def handle_join_observer(name):
+    room.join_observer(name)
     broadcast_room(room)
 
 
