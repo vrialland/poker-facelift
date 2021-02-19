@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 from flask_socketio import SocketIO, emit
 
 from room import Room
@@ -6,7 +7,6 @@ from room import Room
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-app.debug = True
 
 participants = []
 
@@ -63,7 +63,7 @@ def handle_reveal():
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.jinja', env=app.config['ENV'])
 
 
 if __name__ == '__main__':
