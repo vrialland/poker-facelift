@@ -1,10 +1,4 @@
-let originUrl = 'http://127.0.0.1:5000/'
-
-if (window.location.origin === 'https://poker-facelift.herokuapp.com') {
-  originUrl = 'https://poker-facelift.herokuapp.com/'
-}
-
-let socket = io(originUrl)
+let socket = io(window.location.origin + '/')
 
 let app = new Vue({
   el: '#app',
