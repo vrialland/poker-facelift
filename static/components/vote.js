@@ -8,7 +8,7 @@ Vue.component('vote', {
   template: `
     <span>
       <span v-for="choice in choices">
-        <button v-on:click="select(choice)">{{choice}}</button>
+        <button @click="select(choice)">{{choice}}</button>
       </span>
     </span>`,
   methods: {
