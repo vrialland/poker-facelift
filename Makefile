@@ -4,5 +4,8 @@ serve:
 serve-prod:
 	FLASK_ENV=production python server.py
 
-tests:
+test:
 	pytest .
+
+lint:
+	flake8
