@@ -1,5 +1,10 @@
+import operator
+
 from flask import Flask
+from flask import redirect
 from flask import render_template
+from flask import request
+from flask import url_for
 from flask_socketio import SocketIO, emit
 
 from room import Room
@@ -7,8 +12,7 @@ from room import Room
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-
-room = Room()
+rooms = []
 
 
 def broadcast_room(room):
@@ -60,7 +64,15 @@ def handle_reveal():
 
 @app.route('/')
 def index():
-    return render_template('index.jinja', env=app.config['ENV'])
+    return render_template('index.jinja', rooms=rooms, env=app.config['ENV'])
+
+
+@app.route('/rooms', methods=['POST'])
+def add_room():
+    name = request.form.get('name')
+    rooms.append(Room(name))
+    rooms.sort(key=operator.attrgetter('name'))
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

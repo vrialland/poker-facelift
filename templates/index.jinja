@@ -9,21 +9,21 @@
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2.3.0/dist/socket.io.js"></script>
   </head>
   <body>
-    <div id="app">
-      <h2>{{ message }}</h2>
-      <span v-if="connected"> 
-        <room :players="players" :observers="observers" :name="name" :finished="finished"/>
-      </span>
-      <span v-else>
-        <input-name @enter="enter"/>
-      </span>
-    </div>
+    <h3>Rooms</h3>
+      {% if rooms %}
+        <h4>Join an existing room</h4>
+        <ul>
+          {% for room in rooms %}
+            <li><a href="">{{ room.name }}</a> (👤 {{ room.players_count }} | 👀 {{ room.observers_count }})</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-    <script src="static/components/observers-list.js"></script>
-    <script src="static/components/players-list.js"></script>
-    <script src="static/components/vote.js"></script>
-    <script src="static/components/input-name.js"></script>
-    <script src="static/components/room.js"></script>
-    <script src="static/index.js"></script>
+      <h4>Create a new one</h4>
+      <form action="/rooms" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required />
+        <input type="submit" />
+      </form>
   </body>
 </html>

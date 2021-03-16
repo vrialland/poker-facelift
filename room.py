@@ -1,8 +1,17 @@
 class Room:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.players = []
         self.observers = []
         self.finished = False
+
+    @property
+    def players_count(self):
+        return len(self.players)
+
+    @property
+    def observers_count(self):
+        return len(self.observers)
 
     def join_player(self, name):
         """
